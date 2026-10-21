@@ -1,0 +1,9 @@
+/target/
+/.build-tools/
+/.idea/
+*.iml
+/.classpath
+/.project
+/.settings/
+.env
+*.log
