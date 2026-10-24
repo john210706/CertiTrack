@@ -5,6 +5,9 @@
 **Phases 1–9 are complete.** The requested college project is implemented,
 tested, documented, packaged, and ready to demonstrate.
 
+Daily local startup is available through `./run.sh`. It loads PostgreSQL
+settings from the Git-ignored `.env` file and starts the demo profile.
+
 ## Implemented scope
 
 - Phase 1: Java 17/Spring Boot foundation, PostgreSQL configuration, test-only H2,

@@ -26,8 +26,12 @@ Create an empty PostgreSQL database as shown below, configure `DB_USERNAME` and
 `DB_PASSWORD`, then run:
 
 ```sh
-./mvnw spring-boot:run -Dspring-boot.run.profiles=demo
+./run.sh
 ```
+
+`run.sh` loads the local `.env` file and starts the selected Spring profile.
+The committed `.env.example` documents the settings; `.env` is ignored by Git
+so local database credentials are not committed.
 
 Open `http://localhost:8080`. The `demo` profile creates these local accounts
 only when missing, with the shared password `Demo-password-42`:
