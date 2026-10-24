@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class VerificationLog {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Lob @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String searchedCertificateId;
     private Long matchedCertificateDatabaseId;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20)

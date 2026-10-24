@@ -7,7 +7,7 @@ tested, documented, packaged, and ready to demonstrate.
 
 ## Implemented scope
 
-- Phase 1: Java 17/Spring Boot foundation, MySQL configuration, test-only H2,
+- Phase 1: Java 17/Spring Boot foundation, PostgreSQL configuration, test-only H2,
   Maven wrapper, and executable packaging.
 - Phase 2: user roles, BCrypt authentication, session rotation/logout, CSRF,
   admin account management, disabled-session enforcement, and opt-in first-admin
@@ -34,7 +34,20 @@ unsafe or unnecessary ingestion surface.
 
 ## Persistence and security
 
-MySQL database `certitrack` contains `app_users`, `certificates`, and
+On 2026-10-24, the user requested PostgreSQL instead of MySQL. The runtime driver
+is now PostgreSQL, the default URL is `jdbc:postgresql://localhost:5432/certitrack`,
+and the default database user is `certitrack`. All three H2 test databases use
+PostgreSQL compatibility mode. Verification search strings use a plain `TEXT`
+column without JPA large-object handling. Setup SQL and project guides were
+updated. Existing MySQL data was neither modified nor migrated.
+
+The updated package passed all 34 tests. A disposable PostgreSQL 17.11 instance
+also passed checks using the executable JAR: demo issuance/expiration, login,
+verification of all lifecycle states, long Unicode audit text round-trip,
+search, CSV export, and revocation. The JAR contains the PostgreSQL JDBC driver
+and no MySQL or H2 driver.
+
+PostgreSQL database `certitrack` contains `app_users`, `certificates`, and
 `verification_logs`. Emails and public certificate IDs are unique. Certificates
 retain issuer/student foreign keys, lifecycle timestamps/reason, and optimistic
 versioning. No application path deletes certificates.
@@ -65,7 +78,7 @@ walked through in a browser: landing, login, admin creation, issuance, search,
 and certificate details. A final live database smoke test started CertiTrack
 against temporary MariaDB 11.8 using the MySQL dialect, seeded all three roles
 and lifecycle states, served the UI, and returned a valid public verification.
-The project's declared production target remains MySQL 8.
+That smoke test predates the PostgreSQL switch described below.
 
 Final package command:
 
@@ -85,7 +98,7 @@ Output: `target/certitrack-0.0.1-SNAPSHOT.jar`.
 
 ## Manual demonstration
 
-1. Configure an empty MySQL 8 `certitrack` database.
+1. Configure an empty PostgreSQL `certitrack` database.
 2. Start with the `demo` profile and open `http://localhost:8080`.
 3. Verify `CERT-JAVA-<current-year>-00001` publicly.
 4. Sign in as each documented demo account to show role-specific dashboards.

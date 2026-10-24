@@ -21,7 +21,7 @@ publicly verify digital certificate records throughout their lifecycle.
 5. **Student privacy (45 seconds).** Sign in as the demo student and show that
    only that student's certificates are visible.
 6. **Engineering summary (60 seconds).** Mention Spring Boot's layered design,
-   MySQL/JPA persistence, BCrypt/session/CSRF security, transactional issuance,
+   PostgreSQL/JPA persistence, BCrypt/session/CSRF security, transactional issuance,
    immutable IDs, scheduled expiry, audit logging, and automated tests.
 
 Demo accounts and startup instructions are in `README.md`. The seeded valid ID
@@ -39,7 +39,7 @@ Transactional services and lifecycle rules
           |
 Spring Data JPA / Hibernate
           |
-        MySQL
+        PostgreSQL
 ```
 
 ## Likely viva questions

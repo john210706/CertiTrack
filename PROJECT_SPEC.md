@@ -19,7 +19,7 @@ The completed system will:
 2. Register students and issuers.
 3. Issue certificates to students.
 4. Generate unique, human-readable certificate IDs.
-5. Persist users, certificates, and verification history in MySQL.
+5. Persist users, certificates, and verification history in PostgreSQL.
 6. Let students sign in and view only their own certificates.
 7. Let the public verify a certificate without signing in.
 8. Report `VALID`, `EXPIRED`, `REVOKED`, `NOT_FOUND`, or `INVALID_FORMAT` as
@@ -57,7 +57,7 @@ exclusion.
 - Spring Boot 3.x
 - Spring Web and Spring MVC
 - Spring Data JPA and Hibernate
-- MySQL database named `certitrack`
+- PostgreSQL database named `certitrack`
 - Jakarta Validation
 - `HttpSession` session management
 - BCrypt password storage
@@ -417,12 +417,12 @@ revocation, expiration batches, and later bulk CSV import. Search and filtering
 should use repository queries/specifications rather than loading all records
 into application memory.
 
-Production/demo persistence uses MySQL. Tests may use H2. Configuration will
+Production/demo persistence uses PostgreSQL. Tests may use H2. Configuration will
 read environment variables with safe local defaults, for example:
 
 ```properties
-spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/certitrack}
-spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/certitrack}
+spring.datasource.username=${DB_USERNAME:certitrack}
 spring.datasource.password=${DB_PASSWORD:}
 ```
 
@@ -477,7 +477,7 @@ overwrite certificate IDs.
 - Static utility methods where appropriate
 - Custom exceptions and centralized handling
 - `LocalDate` and `LocalDateTime`
-- JDBC via Spring Data JPA/Hibernate and the MySQL driver
+- JDBC via Spring Data JPA/Hibernate and the PostgreSQL driver
 - ORM relationships and repositories
 - Background processing through the expiration scheduler
 - File I/O during the later CSV phase
@@ -500,7 +500,7 @@ BCrypt. Seeding must be possible to disable.
 
 ## 19. Documentation requirements
 
-- `README.md`: purpose, features, stack, prerequisites, MySQL setup,
+- `README.md`: purpose, features, stack, prerequisites, PostgreSQL setup,
   configuration, run instructions, demo accounts, API overview, and project
   structure as those become available.
 - `PROJECT_SPEC.md`: this stable architecture and requirements reference.
@@ -536,6 +536,10 @@ implement a phase:
 8. Provide a concise completion report and stop.
 
 ## 22. Implementation decisions recorded during Phases 1–9
+
+On 2026-10-24, the user authorized replacing MySQL with PostgreSQL. PostgreSQL
+is now the application database, with H2 PostgreSQL mode for automated tests.
+This change configures a fresh database; transfer of existing data is separate.
 
 The user explicitly authorized Phases 1–5 together on 2026-09-27. The stop point
 for that request is Phase 5; Phases 6–9 remain separately gated.

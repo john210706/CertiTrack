@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-        "spring.datasource.url=jdbc:h2:mem:certitrack-http;MODE=MySQL;DB_CLOSE_DELAY=-1",
+        "spring.datasource.url=jdbc:h2:mem:certitrack-http;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
         "BOOTSTRAP_ADMIN_NAME=HTTP Test Administrator",
         "BOOTSTRAP_ADMIN_EMAIL=bootstrap@example.test",
         "BOOTSTRAP_ADMIN_PASSWORD=Test-password-42",

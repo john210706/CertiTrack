@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = "spring.datasource.url=jdbc:h2:mem:certitrack-demo;MODE=MySQL;DB_CLOSE_DELAY=-1")
+@SpringBootTest(properties = "spring.datasource.url=jdbc:h2:mem:certitrack-demo;MODE=PostgreSQL;DB_CLOSE_DELAY=-1")
 @ActiveProfiles({"test", "demo"})
 class DemoDataSeederTest {
     @Autowired DemoDataSeeder seeder;

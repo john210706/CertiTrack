@@ -17,12 +17,12 @@ single Spring Boot application with a responsive vanilla HTML/CSS/JavaScript UI.
 - Optional idempotent demo-data profile and executable JAR packaging
 
 Stack: Java 17, Spring Boot 3.5, Spring MVC, Spring Security, Spring Data
-JPA/Hibernate, Jakarta Validation, MySQL 8, and Maven. Tests use H2 in MySQL
+JPA/Hibernate, Jakarta Validation, PostgreSQL, and Maven. Tests use H2 in PostgreSQL
 mode and include a real embedded HTTP-server flow.
 
 ## Quick demo
 
-Create an empty MySQL database as shown below, configure `DB_USERNAME` and
+Create an empty PostgreSQL database as shown below, configure `DB_USERNAME` and
 `DB_PASSWORD`, then run:
 
 ```sh
@@ -44,22 +44,28 @@ are demonstration-only and must not be used in a deployed system.
 
 ## Prerequisites and database
 
-Install JDK 17 and MySQL 8. The Maven wrapper downloads Maven 3.9.11 on first
-use. Create a database and least-privilege local application account:
+Install JDK 17 and PostgreSQL. The Maven wrapper downloads Maven 3.9.11 on first
+use. Connect as a PostgreSQL administrator (for example, `sudo -u postgres psql`
+on Linux), then create an application role and its database:
 
 ```sql
-CREATE DATABASE certitrack CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'certitrack'@'localhost' IDENTIFIED BY 'replace-with-a-local-password';
-GRANT ALL PRIVILEGES ON certitrack.* TO 'certitrack'@'localhost';
+CREATE ROLE certitrack LOGIN PASSWORD 'replace-with-a-local-password';
+CREATE DATABASE certitrack OWNER certitrack;
+\q
 ```
 
 Configure the process environment; never commit real credentials:
 
 ```sh
-export DB_URL='jdbc:mysql://localhost:3306/certitrack'
+export DB_URL='jdbc:postgresql://localhost:5432/certitrack'
 export DB_USERNAME='certitrack'
 export DB_PASSWORD='replace-with-a-local-password'
 ```
+
+The application role owns the database so Hibernate can create tables in its
+default schema. This setup creates a fresh database; existing MySQL records are
+not transferred automatically. Keep any existing MySQL database until its data
+has been separately migrated and verified.
 
 Other settings:
 
@@ -81,7 +87,7 @@ java -jar target/certitrack-0.0.1-SNAPSHOT.jar
 
 Use `mvnw.cmd` on Windows. The test suite requires permission to bind one
 temporary localhost port; it does not require an external database. The
-packaged application contains the MySQL driver, not the test-only H2 driver.
+packaged application contains the PostgreSQL driver, not the test-only H2 driver.
 
 For a non-demo first startup, provision exactly one administrator from explicit
 environment values:
